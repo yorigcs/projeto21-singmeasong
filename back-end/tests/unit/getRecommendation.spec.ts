@@ -26,4 +26,12 @@ describe('gets Recommendation', () => {
 
     expect(promise).toEqual(recommendationData)
   })
+
+  it('get should calls findAll', async () => {
+    jest.spyOn(recommendationRepository, 'findAll').mockImplementationOnce((): any => [])
+    const promise = await recommendationService.get()
+
+    expect(promise).toBeInstanceOf(Array)
+    expect(recommendationRepository.findAll).toHaveBeenCalled()
+  })
 })
