@@ -25,4 +25,11 @@ describe('POST /recommendations', () => {
     const request = await supertest(app).post('/recommendations').send({ name: data.name })
     expect(request.status).toBe(422)
   })
+
+  it('should returns 422 if youtubeLink is not a valid link', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+    const request = await supertest(app).post('/recommendations').send(Object.assign({}, data, { youtubeLink: 'any_invalid_url' }))
+    expect(request.status).toBe(422)
+  })
 })
