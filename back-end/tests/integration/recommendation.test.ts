@@ -135,3 +135,11 @@ describe('GET /recommendations/random', () => {
     expect(request.body).toEqual(expect.objectContaining({ id: 1, score: 0, ...data }))
   })
 })
+
+describe('GET /recommendations/top/:amount', () => {
+  it('should returns 200, if there are no recommendations', async () => {
+    const result = await supertest(app).get('/recommendations/top/1')
+    const status = result.status
+    expect(status).toEqual(200)
+  })
+})
