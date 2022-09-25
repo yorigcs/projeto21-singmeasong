@@ -67,4 +67,14 @@ describe('POST /recommendations/:id/downvote', () => {
     const request = await supertest(app).post(`/recommendations/${id}/downvote`)
     expect(request.status).toBe(404)
   })
+
+  it('should returns 200 if id was founded and updated', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+
+    await recommendationService.insert(data)
+
+    const request = await supertest(app).post('/recommendations/1/downvote')
+    expect(request.status).toBe(200)
+  })
 })
