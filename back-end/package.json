@@ -1,15 +1,15 @@
 {
   "name": "typescript-back-template",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "dev": "npx nodemon src/server.ts",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.ts",
-    "test:integration": "npm test -- --watch -c jest-integration-config.ts",
-    "test:ci": "npm test -- --coverage --no-cache"
+    "test:integration": "dotenv -e .env.test -- npm run prisma:migrate && npm test -- --watch -c jest-integration-config.ts",
+    "test:ci": "npm test -- --coverage --no-cache",
+    "prisma:migrate": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
