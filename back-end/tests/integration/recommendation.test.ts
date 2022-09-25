@@ -85,4 +85,16 @@ describe('GET /recommendations', () => {
     expect(request.status).toBe(200)
     expect(request.body).toBeInstanceOf(Array)
   })
+
+  it('should returns 200 with an array of recommendations', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+
+    await recommendationService.insert(data)
+
+    const request = await supertest(app).get('/recommendations')
+    expect(request.status).toBe(200)
+    expect(request.body).toBeInstanceOf(Array)
+    expect(request.body).toEqual(expect.arrayContaining([{ id: 1, score: 0, ...data }]))
+  })
 })
