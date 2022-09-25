@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.ts",
+    "test:integration": "npm test -- --watch -c jest-integration-config.ts",
     "test:ci": "npm test -- --coverage --no-cache"
   },
   "keywords": [],
