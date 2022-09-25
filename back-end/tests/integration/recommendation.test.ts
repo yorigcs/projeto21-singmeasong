@@ -117,3 +117,11 @@ describe('GET /recommendations/:id', () => {
     expect(request.body).toEqual(expect.objectContaining({ id: 1, score: 0, ...data }))
   })
 })
+
+describe('GET /recommendations/random', () => {
+  it('should returns 404, if there are no recommendations', async () => {
+    const result = await supertest(app).get('/recommendations/random')
+    const status = result.status
+    expect(status).toEqual(404)
+  })
+})
