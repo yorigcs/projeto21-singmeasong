@@ -34,4 +34,13 @@ describe('gets Recommendation', () => {
     expect(promise).toBeInstanceOf(Array)
     expect(recommendationRepository.findAll).toHaveBeenCalled()
   })
+
+  it('getTop should calls getAmountByScore', async () => {
+    const amount = 999
+    jest.spyOn(recommendationRepository, 'getAmountByScore').mockImplementationOnce((): any => [])
+    const promise = await recommendationService.getTop(amount)
+
+    expect(promise).toBeInstanceOf(Array)
+    expect(recommendationRepository.getAmountByScore).toHaveBeenCalled()
+  })
 })
