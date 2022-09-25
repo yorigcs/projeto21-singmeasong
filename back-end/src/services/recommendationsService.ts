@@ -52,7 +52,8 @@ async function getRandom () {
   const scoreFilter = getScoreFilter(random)
 
   const recommendations = await getByScore(scoreFilter)
-  if (recommendations.length === 0) {
+  const recommendation: any = recommendations
+  if (recommendation?.length === 0 || recommendation === undefined) {
     throw notFoundError()
   }
 
