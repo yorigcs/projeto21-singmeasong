@@ -32,4 +32,11 @@ describe('POST /recommendations', () => {
     const request = await supertest(app).post('/recommendations').send(Object.assign({}, data, { youtubeLink: 'any_invalid_url' }))
     expect(request.status).toBe(422)
   })
+
+  it('should returns 201 if created sucessfully', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+    const request = await supertest(app).post('/recommendations').send(data)
+    expect(request.status).toBe(201)
+  })
 })
