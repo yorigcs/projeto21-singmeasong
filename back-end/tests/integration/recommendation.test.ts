@@ -78,3 +78,11 @@ describe('POST /recommendations/:id/downvote', () => {
     expect(request.status).toBe(200)
   })
 })
+
+describe('GET /recommendations', () => {
+  it('should returns 200 with an empty array', async () => {
+    const request = await supertest(app).get('/recommendations')
+    expect(request.status).toBe(200)
+    expect(request.body).toBeInstanceOf(Array)
+  })
+})
