@@ -47,4 +47,15 @@ describe('vote Recommendation', () => {
     await recommendationService.downvote(recommendationData.id)
     expect(recommendationRepository.updateScore).toHaveBeenCalled()
   })
+
+  it('downvote should calls remove if score is less than -5', async () => {
+    const recommendationData = recommendation()
+
+    jest.spyOn(recommendationRepository, 'find').mockImplementationOnce((): any => recommendationData)
+    jest.spyOn(recommendationRepository, 'remove').mockReturnValueOnce(null)
+    jest.spyOn(recommendationRepository, 'updateScore')
+      .mockImplementationOnce((): any => Object.assign({}, recommendationData, { score: -6 }))
+    await recommendationService.downvote(recommendationData.id)
+    expect(recommendationRepository.remove).toHaveBeenCalled()
+  })
 })
