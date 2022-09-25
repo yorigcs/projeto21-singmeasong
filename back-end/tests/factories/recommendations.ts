@@ -7,3 +7,5 @@ export const recommendation = (): Recommendation => ({
   youtubeLink: faker.internet.url(),
   score: faker.datatype.number({ min: 1, max: 1000 })
 })
+
+export const generateId = (): number => faker.datatype.number({ min: 1, max: 10 })
