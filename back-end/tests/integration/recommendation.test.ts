@@ -6,7 +6,7 @@ import { recommendation, generateId } from '../factories/recommendations'
 import { recommendationService } from '../../src/services/recommendationsService'
 
 beforeEach(async () => {
-  await prisma.$executeRaw`TRUNCATE TABLE recommendations;`
+  await prisma.$executeRaw`TRUNCATE TABLE recommendations RESTART IDENTITY CASCADE;`
 })
 afterAll(async () => {
   await prisma.$disconnect()
@@ -48,5 +48,15 @@ describe('POST /recommendations/:id/upvote', () => {
     const id = generateId()
     const request = await supertest(app).post(`/recommendations/${id}/upvote`)
     expect(request.status).toBe(404)
+  })
+
+  it('should returns 200 if id was founded and updated', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+
+    await recommendationService.insert(data)
+
+    const request = await supertest(app).post('/recommendations/1/upvote')
+    expect(request.status).toBe(200)
   })
 })
