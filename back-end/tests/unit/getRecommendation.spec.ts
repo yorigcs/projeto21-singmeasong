@@ -63,4 +63,12 @@ describe('gets Recommendation', () => {
     const promise = await recommendationService.getRandom()
     expect(promise).toEqual(recommendationData)
   })
+
+  it('getRandom should returns an recommendation with getByScore equals to "lte"', async () => {
+    const recommendationData = recommendation()
+    jest.spyOn(Math, 'random').mockReturnValueOnce(0.8)
+    jest.spyOn(recommendationRepository, 'findAll').mockImplementationOnce((): any => [recommendationData])
+    const promise = await recommendationService.getRandom()
+    expect(promise).toEqual(recommendationData)
+  })
 })
