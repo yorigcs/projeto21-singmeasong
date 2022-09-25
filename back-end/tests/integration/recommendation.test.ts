@@ -2,8 +2,9 @@
 import app from '../../src/app'
 import supertest from 'supertest'
 import { prisma } from '../../src/database'
-import { recommendation } from '../factories/recommendations'
+import { recommendation, generateId } from '../factories/recommendations'
 import { recommendationService } from '../../src/services/recommendationsService'
+
 beforeEach(async () => {
   await prisma.$executeRaw`TRUNCATE TABLE recommendations;`
 })
@@ -39,5 +40,13 @@ describe('POST /recommendations', () => {
     await recommendationService.insert(data)
     const request = await supertest(app).post('/recommendations').send(data)
     expect(request.status).toBe(409)
+  })
+})
+
+describe('POST /recommendations/:id/upvote', () => {
+  it('should returns 404 if id was not founded', async () => {
+    const id = generateId()
+    const request = await supertest(app).post(`/recommendations/${id}/upvote`)
+    expect(request.status).toBe(404)
   })
 })
