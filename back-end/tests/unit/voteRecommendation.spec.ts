@@ -27,4 +27,15 @@ describe('vote Recommendation', () => {
     await recommendationService.upvote(recommendationData.id)
     expect(recommendationRepository.updateScore).toHaveBeenCalled()
   })
+
+  it('downvote should throws if getById does not find a recommendation', async () => {
+    const id = generateId()
+    jest.spyOn(recommendationService, 'getById').mockImplementationOnce(null)
+    const promise = recommendationService.downvote(id)
+
+    await expect(promise).rejects.toEqual({
+      type: 'not_found',
+      message: ''
+    })
+  })
 })
