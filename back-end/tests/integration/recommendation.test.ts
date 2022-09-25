@@ -60,3 +60,11 @@ describe('POST /recommendations/:id/upvote', () => {
     expect(request.status).toBe(200)
   })
 })
+
+describe('POST /recommendations/:id/downvote', () => {
+  it('should returns 404 if id was not founded', async () => {
+    const id = generateId()
+    const request = await supertest(app).post(`/recommendations/${id}/downvote`)
+    expect(request.status).toBe(404)
+  })
+})
