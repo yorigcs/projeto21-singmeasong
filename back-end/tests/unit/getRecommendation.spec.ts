@@ -1,6 +1,6 @@
 import { recommendationService } from '../../src/services/recommendationsService'
 import { recommendationRepository } from '../../src/repositories/recommendationRepository'
-import { generateId } from '../factories/recommendations'
+import { generateId, recommendation } from '../factories/recommendations'
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -17,5 +17,13 @@ describe('gets Recommendation', () => {
       type: 'not_found',
       message: ''
     })
+  })
+
+  it('getById should returns the recommendation if found', async () => {
+    const recommendationData = recommendation()
+    jest.spyOn(recommendationRepository, 'find').mockImplementationOnce((): any => recommendationData)
+    const promise = await recommendationService.getById(recommendationData.id)
+
+    expect(promise).toEqual(recommendationData)
   })
 })
