@@ -124,4 +124,14 @@ describe('GET /recommendations/random', () => {
     const status = result.status
     expect(status).toEqual(404)
   })
+
+  it('should returns 200 if recommendation was founded', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+    await recommendationService.insert(data)
+
+    const request = await supertest(app).get('/recommendations/random')
+    expect(request.status).toBe(200)
+    expect(request.body).toEqual(expect.objectContaining({ id: 1, score: 0, ...data }))
+  })
 })
