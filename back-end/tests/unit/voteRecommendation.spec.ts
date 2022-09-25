@@ -18,4 +18,13 @@ describe('vote Recommendation', () => {
       message: ''
     })
   })
+
+  it('upvote should calls updateScore', async () => {
+    const recommendationData = recommendation()
+
+    jest.spyOn(recommendationRepository, 'find').mockImplementationOnce((): any => recommendationData)
+    jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce((): any => recommendationData)
+    await recommendationService.upvote(recommendationData.id)
+    expect(recommendationRepository.updateScore).toHaveBeenCalled()
+  })
 })
