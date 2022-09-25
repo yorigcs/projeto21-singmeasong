@@ -105,4 +105,15 @@ describe('GET /recommendations/:id', () => {
     const request = await supertest(app).get(`/recommendations/${id}`)
     expect(request.status).toBe(404)
   })
+
+  it('should returns 200 if recommendation id was founded', async () => {
+    const reccomendationData = recommendation()
+    const { id, score, ...data } = reccomendationData
+
+    await recommendationService.insert(data)
+
+    const request = await supertest(app).get('/recommendations/1')
+    expect(request.status).toBe(200)
+    expect(request.body).toEqual(expect.objectContaining({ id: 1, score: 0, ...data }))
+  })
 })
