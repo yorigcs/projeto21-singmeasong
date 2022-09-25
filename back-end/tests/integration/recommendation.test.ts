@@ -98,3 +98,11 @@ describe('GET /recommendations', () => {
     expect(request.body).toEqual(expect.arrayContaining([{ id: 1, score: 0, ...data }]))
   })
 })
+
+describe('GET /recommendations/:id', () => {
+  it('should returns 404 if recommendation id was not founded', async () => {
+    const id = generateId()
+    const request = await supertest(app).get(`/recommendations/${id}`)
+    expect(request.status).toBe(404)
+  })
+})
