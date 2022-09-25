@@ -20,4 +20,16 @@ describe('Create a Recommendation', () => {
       message: 'Recommendations names must be unique'
     })
   })
+
+  it('should create recommendation', async () => {
+    const recommendationData = recommendation()
+    jest.spyOn(recommendationRepository, 'findByName').mockReturnValueOnce(null)
+    jest.spyOn(recommendationRepository, 'create').mockImplementationOnce((): any => recommendationData)
+
+    const { id, score, ...insertData } = recommendationData
+    await recommendationService.insert(insertData)
+
+    expect(recommendationRepository.findByName).toBeCalled()
+    expect(recommendationRepository.create).toBeCalled()
+  })
 })
