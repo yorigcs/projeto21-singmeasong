@@ -43,4 +43,17 @@ describe('gets Recommendation', () => {
     expect(promise).toBeInstanceOf(Array)
     expect(recommendationRepository.getAmountByScore).toHaveBeenCalled()
   })
+
+  it('getRandom should throws if getByScore length is zero', async () => {
+    const arr = []
+    jest.spyOn(recommendationRepository, 'findAll').mockImplementationOnce((): any => { return arr })
+    const promise = recommendationService.getRandom()
+
+    await expect(promise).rejects.toEqual(
+      {
+        type: 'not_found',
+        message: ''
+      }
+    )
+  })
 })
