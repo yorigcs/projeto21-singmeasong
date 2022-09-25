@@ -56,4 +56,11 @@ describe('gets Recommendation', () => {
       }
     )
   })
+
+  it('getRandom should returns an recommendation', async () => {
+    const recommendationData = recommendation()
+    jest.spyOn(recommendationRepository, 'findAll').mockImplementationOnce((): any => [recommendationData])
+    const promise = await recommendationService.getRandom()
+    expect(promise).toEqual(recommendationData)
+  })
 })
