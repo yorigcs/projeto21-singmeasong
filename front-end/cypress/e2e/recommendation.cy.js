@@ -25,24 +25,50 @@ describe('vote recommendation', () => {
   it('should upvote successfully', () => {
     cy.createRecommendation('Savages', 'https://youtu.be/3WaXX7F-sNc')
     cy.get('div[name="score"]').invoke('text').then(parseInt).then((prev) => {
-      cy.get('svg[name="upvote"]').click();
-      cy.wait(500);
+      cy.get('svg[name="upvote"]').click()
+      cy.wait(500)
       cy.get('div[name="score"]').invoke('text').then(parseInt).then((next) => {
-        expect(next).to.equal(prev + 1);
-      });
-    });
-  });
+        expect(next).to.equal(prev + 1)
+      })
+    })
+  })
 
   it('should downvote successfully', () => {
     cy.createRecommendation('Savages', 'https://youtu.be/3WaXX7F-sNc')
     cy.get('div[name="score"]').invoke('text').then(parseInt).then((prev) => {
-      cy.get('svg[name="downvote"]').click();
-      cy.wait(500);
+      cy.get('svg[name="downvote"]').click()
+      cy.wait(500)
       cy.get('div[name="score"]').invoke('text').then(parseInt).then((next) => {
-        expect(next).to.equal(prev - 1);
-      });
-    });
-  });
+        expect(next).to.equal(prev - 1)
+      })
+    })
+  })
+  
+})
+
+describe('navigate to routes', () => {
+  it('should navigate to /home sucessfully', () => {
+    cy.intercept('GET', '/recommendations').as('getRecommendation')
+    cy.get('div[name="home"]').click()
+    cy.wait('@getRecommendation')
+    cy.url().should('include', '/')
+  })
+
+  it('should navigate to /top sucessfully', () => {
+    cy.intercept('GET', '/recommendations/top/10').as('getRecommendation')
+    cy.get('div[name="top"]').click()
+    cy.wait('@getRecommendation')
+    cy.url().should('include', '/top')
+  })
+
+  it('should navigate to /random sucessfully', () => {
+    cy.intercept('GET', '/recommendations/random').as('getRecommendation')
+    cy.get('div[name="random"]').click()
+    cy.wait('@getRecommendation')
+    cy.url().should('include', '/random')
+  })
+
+ 
   
 });
 
