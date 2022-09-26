@@ -21,7 +21,7 @@ describe('Create recommendation', () => {
   
 })
 
-describe('Upvote recommendation', () => {
+describe('vote recommendation', () => {
   it('should upvote successfully', () => {
     cy.createRecommendation('Savages', 'https://youtu.be/3WaXX7F-sNc')
     cy.get('div[name="score"]').invoke('text').then(parseInt).then((prev) => {
@@ -32,4 +32,7 @@ describe('Upvote recommendation', () => {
       });
     });
   });
+
+  
 });
+
