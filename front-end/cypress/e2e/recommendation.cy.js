@@ -53,22 +53,12 @@ describe('navigate to routes', () => {
     cy.wait('@getRecommendation')
     cy.url().should('include', '/')
   })
-
   it('should navigate to /top sucessfully', () => {
     cy.intercept('GET', '/recommendations/top/10').as('getRecommendation')
     cy.get('div[name="top"]').click()
     cy.wait('@getRecommendation')
     cy.url().should('include', '/top')
-  })
-
-  it('should navigate to /random sucessfully', () => {
-    cy.intercept('GET', '/recommendations/random').as('getRecommendation')
-    cy.get('div[name="random"]').click()
-    cy.wait('@getRecommendation')
-    cy.url().should('include', '/random')
-  })
-
- 
+  })  
   
-});
+})
 
