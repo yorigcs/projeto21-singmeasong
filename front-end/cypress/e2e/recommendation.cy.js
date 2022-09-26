@@ -33,6 +33,16 @@ describe('vote recommendation', () => {
     });
   });
 
+  it('should downvote successfully', () => {
+    cy.createRecommendation('Savages', 'https://youtu.be/3WaXX7F-sNc')
+    cy.get('div[name="score"]').invoke('text').then(parseInt).then((prev) => {
+      cy.get('svg[name="downvote"]').click();
+      cy.wait(500);
+      cy.get('div[name="score"]').invoke('text').then(parseInt).then((next) => {
+        expect(next).to.equal(prev - 1);
+      });
+    });
+  });
   
 });
 
