@@ -18,6 +18,22 @@ describe('Create recommendation', () => {
     cy.get('button[name="submit"]').click()
     cy.wait('@postRecommendation')
   })
+
+  it('should not create a duplicated recommendation', () => {
+    cy.intercept('GET', '/recommendations').as('getRecommendation')
+    cy.wait('@getRecommendation')
+    cy.createRecommendation('Savages', 'https://youtu.be/3WaXX7F-sNc')
+
+    cy.get('input[placeholder="Name"]').type('Savages')
+    cy.get('input[placeholder="https://youtu.be/..."]').type('https://youtu.be/3WaXX7F-sNc')
+
+    cy.intercept('POST', 'http://localhost:5000/recommendations').as('postRecommendation')
+    cy.get('button[name="submit"]').click()
+    cy.wait('@postRecommendation')
+    cy.on('window:alert', (str) => {
+      expect(str).to.equal('Error creating recommendation!');
+    });
+  })
   
 })
 
